@@ -1,0 +1,32 @@
+/* PAA Viewer - Custom Styles */
+
+.channel-selector {
+    margin-bottom: 24px;
+}
+
+.channel-selector label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.channel-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.channel-buttons .btn {
+    flex: 0 0 auto;
+    min-width: 80px;
+}
+
+.channel-buttons .btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}

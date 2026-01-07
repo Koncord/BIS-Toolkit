@@ -1,0 +1,31 @@
+{
+  "name": "p3d-viewer-example",
+  "version": "1.0.0",
+  "description": "Unified interactive 3D viewer for P3D files (MLOD and ODOL formats) using Three.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "demo": "npm run build && npx http-server dist -p 8080 -c-1 -o",
+    "serve": "npx http-server dist -p 8080 -c-1"
+  },
+  "keywords": [
+    "p3d",
+    "mlod",
+    "odol",
+    "viewer",
+    "3d",
+    "threejs",
+    "arma"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@types/three": "^0.182.0",
+    "esbuild": "^0.27.2",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "three": "^0.182.0"
+  }
+}

@@ -1,0 +1,65 @@
+version: 2
+
+# Common configuration template
+x-npm-defaults: &npm-defaults
+  schedule:
+    interval: "weekly"
+    day: "monday"
+    time: "09:00"
+  open-pull-requests-limit: 10
+  reviewers:
+    - "koncord"
+  labels:
+    - "dependencies"
+    - "automated"
+  commit-message:
+    prefix: "chore"
+    include: "scope"
+  target-branch: "develop"
+
+updates:
+  # Root
+  - package-ecosystem: "npm"
+    directory: "/"
+    <<: *npm-defaults
+
+  # Packages
+  - package-ecosystem: "npm"
+    directory: "/packages/bcn"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/bis-toolkit"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/cppparser"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/edds"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/p3d"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/paa"
+    <<: *npm-defaults
+
+  - package-ecosystem: "npm"
+    directory: "/packages/utils"
+    <<: *npm-defaults
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    labels:
+      - "github-actions"
+      - "dependencies"
+    commit-message:
+      prefix: "ci"

@@ -1,0 +1,59 @@
+{
+  "name": "bis-toolkit",
+  "version": "1.0.0",
+  "description": "Complete Alpine Labs TypeScript library suite for DayZ game modding",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run build:types && npm run build:bundle",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:bundle": "node esbuild.config.js",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "keywords": [
+    "arma",
+    "dayz",
+    "modding",
+    "texture",
+    "paa",
+    "mlod",
+    "odol",
+    "edds"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
+    "esbuild": "^0.27.2",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
+  },
+  "dependencies": {
+    "@bis-toolkit/bcn": "^1.0.0",
+    "@bis-toolkit/cppparser": "^1.0.0",
+    "@bis-toolkit/edds": "^1.0.0",
+    "@bis-toolkit/p3d": "^1.0.0",
+    "@bis-toolkit/paa": "^1.0.0",
+    "@bis-toolkit/utils": "^1.0.0"
+  }
+}

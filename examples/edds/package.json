@@ -1,0 +1,25 @@
+{
+  "name": "edds-viewer-example",
+  "version": "1.0.0",
+  "description": "Interactive viewer for EDDS (DDS) texture files",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "demo": "npm run build && npx http-server dist -p 8080 -c-1 -o",
+    "serve": "npx http-server dist -p 8080 -c-1"
+  },
+  "keywords": [
+    "edds",
+    "dds",
+    "texture",
+    "viewer",
+    "arma"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "esbuild": "^0.27.2",
+    "http-server": "^14.1.1"
+  }
+}

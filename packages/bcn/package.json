@@ -1,0 +1,48 @@
+{
+  "name": "@bis-toolkit/bcn",
+  "version": "1.0.0",
+  "description": "Block Compression (BC1-BC5, BC7) texture decoders",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:types && npm run build:bundle",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:bundle": "node esbuild.config.js",
+    "prepublishOnly": "npm run build",
+    "watch": "tsc --watch",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "keywords": [
+    "bc1",
+    "bc2",
+    "bc3",
+    "bc4",
+    "bc5",
+    "bc7",
+    "dxt1",
+    "dxt3",
+    "dxt5",
+    "texture",
+    "decoder"
+  ],
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "esbuild": "^0.27.2"
+  }
+}
