@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shared utilities for BIS Toolkit - binary I/O, compression, etc.",
   "type": "module",
   "main": "dist/index.js",
