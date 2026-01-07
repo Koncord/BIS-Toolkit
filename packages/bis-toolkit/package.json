@@ -1,6 +1,6 @@
 {
   "name": "bis-toolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Complete Alpine Labs TypeScript library suite for DayZ game modding",
   "type": "module",
   "main": "dist/index.js",
