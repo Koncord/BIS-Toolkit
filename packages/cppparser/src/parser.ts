@@ -57,7 +57,7 @@ export class Parser {
         if (token.kind === TokenKind.Punctuation && (token.value === '-' || token.value === '+')) {
             this.advance();
             const numToken = this.peek();
-            if (numToken && numToken.kind === TokenKind.Number) {
+            if (numToken?.kind === TokenKind.Number) {
                 this.advance();
                 const value = parseFloat(numToken.value);
                 return token.value === '-' ? -value : value;
@@ -88,7 +88,7 @@ export class Parser {
 
     private parseExpression(): CfgType {
         const token = this.peek();
-        if (token && token.kind === TokenKind.Punctuation && token.value === '{') {
+        if (token?.kind === TokenKind.Punctuation && token.value === '{') {
             // Nested array
             this.advance(); // consume '{'
             const elements = this.parseArrayElements();
