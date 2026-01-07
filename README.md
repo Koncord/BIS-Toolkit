@@ -20,26 +20,6 @@ npm install
 npm run build
 ```
 
-## Packages
-
-### @bis-toolkit/utils
-
-Shared utilities for all BIS Toolkit including binary I/O (BinaryReader/Writer) and decompression algorithms (LZ4, LZO, LZSS).
-
-[Read more](./packages/utils/README.md)
-
-### @bis-toolkit/paa
-
-For reading PAA texture files.
-
-[Read more](./packages/paa/README.md)
-
-### @bis-toolkit/p3d
-
-For reading P3D model files (MLOD and ODOL formats).
-
-[Read more](./packages/p3d/README.md)
-
 ## Development
 
 ```bash
