@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>P3D Model Viewer</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="viewer.css">
+</head>
+
+<body>
+    <div class="container">
+        <main class="viewer-shell">
+            <button id="showPanelBtn" class="show-panel-btn" style="display: none;" title="Show Panel">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            <div class="viewer-container">
+                <div id="dropZone" class="drop">
+                    <div class="drop__icon" aria-hidden="true"></div>
+                    <p class="drop__title">Drop P3D files here or click to browse</p>
+                    <p class="drop__hint">Supported: .p3d, .rvmat, .paa, .png, .jpg</p>
+                </div>
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div id="controlsPanel" class="controls overlay">
+                <div class="controls-header">
+                    <h3>Model Viewer</h3>
+                    <button id="controlsToggle" class="controls-toggle-btn" aria-expanded="true" title="Hide Panel">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+                <input type="file" id="fileInput" accept=".p3d" multiple style="display:none;" />
+
+                <div class="info-section" id="infoPanel" style="display: none;">
+                    <h3>Model Info</h3>
+                    <dl class="info__grid">
+                        <div>
+                            <dt>Type</dt>
+                            <dd id="modelType">-</dd>
+                        </div>
+                        <div>
+                            <dt>Version</dt>
+                            <dd id="version">-</dd>
+                        </div>
+                        <div>
+                            <dt>LODs</dt>
+                            <dd id="lodCount">-</dd>
+                        </div>
+                        <div>
+                            <dt>Vertices</dt>
+                            <dd id="vertexCount">-</dd>
+                        </div>
+                        <div>
+                            <dt>Faces</dt>
+                            <dd id="faceCount">-</dd>
+                        </div>
+                        <div>
+                            <dt>Mass</dt>
+                            <dd id="mass">-</dd>
+                        </div>
+                        <div>
+                            <dt>Skeleton</dt>
+                            <dd id="skeleton">-</dd>
+                        </div>
+                    </dl>
+
+                    <div class="lod-selector">
+                        <select id="lodSelect"></select>
+                    </div>
+
+                    <div class="view-controls">
+                        <button id="wireframeBtn" class="btn">Toggle Wireframe</button>
+                        <button id="resetCameraBtn" class="btn">Reset Camera</button>
+                        <button id="normalsBtn" class="btn">Toggle Normals</button>
+                    </div>
+
+                    <div class="properties-section">
+                        <div class="properties-header">
+                            <h4>Properties</h4>
+                        </div>
+                        <div id="propertiesList" class="properties-list">
+                            <div class="properties-list-empty">No properties</div>
+                        </div>
+                    </div>
+
+                    <div class="materials-section">
+                        <div class="materials-header">
+                            <h4>Materials</h4>
+                        </div>
+                        <div id="materialList" class="material-list">
+                            <div class="material-list-empty">No materials defined. Model will use default material.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="texture-section">
+                        <div class="texture-header">
+                            <h4>Texture Slots</h4>
+                            <button class="section-toggle" id="textureSlotsToggle" aria-expanded="false" title="Toggle section">+</button>
+                        </div>
+                        <div id="textureSlots" class="texture-slots collapsed">
+                        </div>
+                    </div>
+
+                    <div class="selections-section">
+                        <div class="selections-header">
+                            <h4>Named Selections</h4>
+                        </div>
+                        <div id="selectionList" class="selection-list">
+                            <div class="selection-list-empty">No named selections</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="errorPanel" class="error-panel" style="display: none;">
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+            <button id="errorResetBtn" class="btn">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="selection-item-template">
+        <div class="selection-item" style="cursor: pointer">
+            <div class="selection-name"></div>
+            <div class="selection-info"></div>
+        </div>
+    </template>
+
+    <template id="property-item-template">
+        <div class="property-item">
+            <span class="property-name"></span>
+            <span class="property-value"></span>
+        </div>
+    </template>
+
+    <template id="material-item-template">
+        <div class="material-item">
+            <div class="material-name"></div>
+            <div class="material-status"></div>
+        </div>
+    </template>
+
+    <template id="texture-slot-empty-template">
+        <div class="texture-slot">
+            <div class="texture-slot-label"></div>
+            <div class="texture-slot-preview">
+                <div class="texture-slot-empty">Drop texture here</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="texture-slot-filled-template">
+        <div class="texture-slot filled">
+            <div class="texture-slot-filename"></div>
+            <div class="texture-slot-label"></div>
+            <div class="texture-slot-preview">
+                <img class="texture-slot-img" alt="Texture">
+                <button class="texture-slot-remove">x</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="derived-map-template">
+        <div class="derived-map">
+            <div class="derived-map-label"></div>
+            <img class="derived-map-preview" loading="lazy">
+        </div>
+    </template>
+
+    <template id="specular-tint-note-template">
+        <div class="derived-map-note">
+            <span class="spec-chip"></span>
+            <span>Specular tint from RVMAT</span>
+        </div>
+    </template>
+
+    <script type="module" src="app.bundle.js"></script>
+</body>
+
+</html>

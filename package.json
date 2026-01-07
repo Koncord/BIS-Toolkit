@@ -1,0 +1,30 @@
+{
+  "name": "bis-toolkit",
+  "version": "1.0.0",
+  "description": "BIS Toolkit - TypeScript libraries for DayZ modding",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @bis-toolkit/utils -w @bis-toolkit/bcn -w @bis-toolkit/cppparser && npm run build -w @bis-toolkit/edds -w @bis-toolkit/paa -w @bis-toolkit/p3d && npm run build -w bis-toolkit",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "pack": "npm pack --workspaces",
+    "clean": "Remove-Item -Recurse -Force packages/*/dist, packages/*/node_modules"
+  },
+  "keywords": [
+    "arma",
+    "dayz",
+    "modding",
+    "texture",
+    "paa"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "jiti": "^2.6.1",
+    "typescript": "^5.9.3"
+  }
+}

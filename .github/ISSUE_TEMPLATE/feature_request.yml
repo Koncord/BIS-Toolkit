@@ -1,0 +1,42 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees:
+  - koncord
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in improving BIS Toolkit libraries!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: What problem does this solve and how?
+      placeholder: Describe what you need and why.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve workflow
+        - High - Critical for my use case
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be willing to contribute to implementing this feature?
+      options:
+        - label: I would be willing to submit a PR for this feature
+          required: false

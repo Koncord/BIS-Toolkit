@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>EDDS Viewer</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+    <div class="container">
+        <main class="layout">
+            <section class="card drop" id="dropZone">
+                <div class="drop__icon" aria-hidden="true"></div>
+                <p class="drop__title">Drop EDDS file here</p>
+                <p class="drop__hint">or click to select from disk</p>
+                <input type="file" id="fileInput" accept=".edds,.dds" hidden>
+            </section>
+
+            <section class="card info" id="infoPanel" hidden>
+                <div class="info__header">
+                    <div>
+                        <p class="label">Loaded file</p>
+                        <h3 id="fileName">-</h3>
+                    </div>
+                    <div class="pill" id="formatChip">-</div>
+                </div>
+                <dl class="info__grid">
+                    <div>
+                        <dt>Dimensions</dt>
+                        <dd id="fileDimensions">-</dd>
+                    </div>
+                    <div>
+                        <dt>Mipmaps</dt>
+                        <dd id="fileMipmaps">-</dd>
+                    </div>
+                    <div>
+                        <dt>Format</dt>
+                        <dd id="fileFormat">-</dd>
+                    </div>
+                    <div>
+                        <dt>DXGI/FourCC</dt>
+                        <dd id="fileDxgi">-</dd>
+                    </div>
+                </dl>
+
+                <div class="slider">
+                    <label for="mipmapLevel">Mipmap level</label>
+                    <input type="range" id="mipmapLevel" min="0" max="0" value="0" disabled>
+                    <div class="slider__value" id="mipmapValue">0</div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" id="exportBtn">Export PNG</button>
+                    <button class="btn ghost" id="resetBtn">Load another</button>
+                </div>
+            </section>
+
+            <section class="card viewer" id="viewerPanel" hidden>
+                <div class="viewer__header">
+                    <div>
+                        <p class="label">Preview</p>
+                        <h3 id="canvasSize">-</h3>
+                    </div>
+                    <div class="pill pill--soft" id="mipBadge">mip 0</div>
+                </div>
+                <div class="canvas-frame" id="canvasFrame" role="button" aria-label="Open full-size preview" tabindex="0">
+                    <canvas id="canvas"></canvas>
+                    <div class="canvas-hint">Click to open full size</div>
+                </div>
+            </section>
+
+            <section class="card error" id="errorPanel" hidden>
+                <div>
+                    <p class="label">Something broke</p>
+                    <h3 id="errorMessage">-</h3>
+                    <p class="lede">The parser could not read this file. It might be corrupted or use an unsupported format.</p>
+                    <div class="controls">
+                        <button class="btn" id="errorResetBtn">Try again</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="lightbox" class="lightbox" hidden>
+        <div id="lightboxBackdrop" class="lightbox__backdrop"></div>
+        <button id="lightboxClose" class="lightbox-close">×</button>
+        <canvas id="lightboxCanvas"></canvas>
+        <div id="lightboxTitle" class="lightbox-title">-</div>
+    </div>
+
+    <script type="module" src="app.bundle.js"></script>
+</body>
+</html>

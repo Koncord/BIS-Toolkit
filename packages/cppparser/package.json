@@ -1,0 +1,51 @@
+{
+  "name": "@bis-toolkit/cppparser",
+  "version": "1.0.0",
+  "description": "Arma/DayZ config parser",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run build:types && npm run build:bundle",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:bundle": "node esbuild.config.js",
+    "prepublishOnly": "npm run build",
+    "watch": "tsc --watch",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "keywords": [
+    "rap",
+    "cfg",
+    "config.cpp",
+    "arma",
+    "dayz"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
+    "esbuild": "^0.27.2",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
+  },
+  "dependencies": {}
+}
