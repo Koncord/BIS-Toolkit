@@ -9,7 +9,7 @@ const RAD_PER_VAL = 1.0 / 65535; // ushort.MaxValue
  * Data entity - stores the actual animation data (translations, rotations, scales)
  */
 export class DataEntity extends Entity {
-    public boneAnimations: Map<string, BoneAnimation> = new Map();
+    public boneAnimations = new Map<string, BoneAnimation>();
     private headEntity?: HeadEntity;
 
     constructor(parent?: Entity, headEntity?: HeadEntity) {
