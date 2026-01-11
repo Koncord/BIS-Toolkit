@@ -22,3 +22,6 @@ export * as EDDS from '@bis-toolkit/edds';
 
 // Re-export C++ parser
 export * as CPPParser from '@bis-toolkit/cppparser';
+
+// Re-export ANM animation format
+export * as ANM from '@bis-toolkit/anm';

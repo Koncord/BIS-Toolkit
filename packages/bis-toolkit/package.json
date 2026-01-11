@@ -58,11 +58,12 @@
     "typescript-eslint": "^8.52.0"
   },
   "dependencies": {
-    "@bis-toolkit/bcn": "^1.0.0",
-    "@bis-toolkit/cppparser": "^1.0.0",
-    "@bis-toolkit/edds": "^1.0.0",
-    "@bis-toolkit/p3d": "^1.0.0",
-    "@bis-toolkit/paa": "^1.0.0",
-    "@bis-toolkit/utils": "^1.0.0"
+    "@bis-toolkit/bcn": "^1.0.1",
+    "@bis-toolkit/cppparser": "^1.0.1",
+    "@bis-toolkit/edds": "^1.0.1",
+    "@bis-toolkit/p3d": "^1.0.2",
+    "@bis-toolkit/paa": "^1.0.1",
+    "@bis-toolkit/utils": "^1.0.1",
+    "@bis-toolkit/anm": "^1.0.0"
   }
 }
