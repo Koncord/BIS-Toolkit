@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/paa",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "PAA (Real Virtuality Texture Format) reader",
   "type": "module",
   "main": "dist/index.js",
