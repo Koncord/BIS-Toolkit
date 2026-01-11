@@ -21,7 +21,8 @@ export {
 	type SharpEdgesTagg,
 	type UVSetTagg,
 	type NamedSelectionTagg,
-	type EndOfFileTagg
+	type EndOfFileTagg,
+	getSelectedIndices
 } from './Tagg';
 export { getLodName } from '../shared/Resolution';
 
