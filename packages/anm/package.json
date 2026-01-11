@@ -1,0 +1,52 @@
+{
+  "name": "@bis-toolkit/anm",
+  "version": "1.0.0",
+  "description": "ANM (Enfusion Animation Format) reader for DayZ",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run build:types && npm run build:bundle",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:bundle": "node esbuild.config.js",
+    "prepublishOnly": "npm run build",
+    "watch": "tsc --watch",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+  "keywords": [
+    "anm",
+    "animation",
+    "enfusion",
+    "dayz"
+  ],
+  "author": "Alpine Labs",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Koncord/BIS-Toolkit.git",
+    "directory": "packages/anm"
+  },
+  "bugs": {
+    "url": "https://github.com/Koncord/BIS-Toolkit/issues"
+  },
+  "homepage": "https://github.com/Koncord/BIS-Toolkit#readme",
+  "dependencies": {
+    "@bis-toolkit/utils": "workspace:*"
+  }
+}
