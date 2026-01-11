@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/p3d",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "P3D (Arma/DayZ Model Format) reader",
   "type": "module",
   "main": "dist/index.js",
