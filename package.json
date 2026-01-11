@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @bis-toolkit/utils -w @bis-toolkit/bcn -w @bis-toolkit/cppparser && npm run build -w @bis-toolkit/edds -w @bis-toolkit/paa -w @bis-toolkit/p3d && npm run build -w bis-toolkit",
+    "build": "npm run build -w @bis-toolkit/utils -w @bis-toolkit/bcn -w @bis-toolkit/cppparser && npm run build -w @bis-toolkit/edds -w @bis-toolkit/paa -w @bis-toolkit/p3d -w @bis-toolkit/anm && npm run build -w bis-toolkit",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
     "pack": "npm pack --workspaces",
