@@ -47,6 +47,6 @@
   },
   "homepage": "https://github.com/Koncord/BIS-Toolkit#readme",
   "dependencies": {
-    "@bis-toolkit/utils": "workspace:*"
+    "@bis-toolkit/utils": "^1.0.2"
   }
 }
