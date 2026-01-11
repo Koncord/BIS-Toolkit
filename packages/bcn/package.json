@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/bcn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Block Compression (BC1-BC5, BC7) texture decoders",
   "type": "module",
   "main": "dist/index.js",

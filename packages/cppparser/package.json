@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/cppparser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Arma/DayZ config parser",
   "type": "module",
   "main": "dist/index.js",

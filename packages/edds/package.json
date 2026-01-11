@@ -1,6 +1,6 @@
 {
   "name": "@bis-toolkit/edds",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "EDDS (Enfusion DDS) reader with RGBA output",
   "type": "module",
   "main": "dist/index.js",
