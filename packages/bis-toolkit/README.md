@@ -1,4 +1,4 @@
-# @bis-toolkit/alpine-libs
+# bis-toolkit
 
 Complete Alpine Labs TypeScript library suite for DayZ game modding.
 
@@ -9,7 +9,7 @@ This meta-package provides convenient access to all Alpine Labs libraries in a s
 ## Installation
 
 ```bash
-npm install @bis-toolkit/alpine-libs
+npm install bis-toolkit
 ```
 
 ## What's Included
