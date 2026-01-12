@@ -10,10 +10,24 @@ import { Parser } from "./parser";
 export interface RvmatStage {
     name: string;
     texture: string;
+    texGen?: number;
+}
+
+export interface UvTransform {
+    aside: number[];
+    up: number[];
+    dir: number[];
+    pos: number[];
+}
+
+export interface TexGen {
+    uvSource: string;
+    uvTransform: UvTransform;
 }
 
 export interface RvmatData {
     stages: RvmatStage[];
+    texGens: Map<number, TexGen>;
     ambient?: number[];
     diffuse?: number[];
     forcedDiffuse?: number[];
@@ -32,7 +46,7 @@ export class RvmatParser {
     static parse(content: string, filename = '<rvmat>'): RvmatData {
         const parser = new Parser(content, filename);
         const document = parser.parse();
-        const data: RvmatData = { stages: [] };
+        const data: RvmatData = { stages: [], texGens: new Map<number, TexGen>() };
 
         data.ambient = this.readNumberArray(this.findVariable(document, 'ambient'));
         data.diffuse = this.readNumberArray(this.findVariable(document, 'diffuse'));
@@ -44,6 +58,7 @@ export class RvmatParser {
         data.vertexShaderID = this.readString(this.findVariable(document, 'VertexShaderID'));
 
         this.extractStages(document, data);
+        this.extractTexGens(document, data);
 
         return data;
     }
@@ -63,12 +78,57 @@ export class RvmatParser {
         const collectFromClass = (cls: CfgClass): void => {
             if (/^stage\d+$/i.test(cls.name)) {
                 const textureProp = this.findClassProperty(cls, 'texture');
+                const texGenProp = this.findClassProperty(cls, 'texGen');
+
                 if (textureProp && this.isSimpleVariable(textureProp)) {
                     const texture = this.readString(textureProp);
+                    const texGen = texGenProp && this.isSimpleVariable(texGenProp)
+                        ? this.readNumber(texGenProp)
+                        : undefined;
+
                     // Include both file paths and procedural textures (starting with #)
                     if (texture && texture.trim() !== '') {
-                        data.stages.push({ name: cls.name, texture });
+                        data.stages.push({ name: cls.name, texture, texGen });
                     }
+                }
+            }
+
+            for (const property of cls.properties.values()) {
+                if (this.isClass(property)) {
+                    collectFromClass(property);
+                }
+            }
+        };
+
+        for (const statement of document.statements) {
+            if (this.isClass(statement)) {
+                collectFromClass(statement);
+            }
+        }
+    }
+
+    private static extractTexGens(document: CfgDocument, data: RvmatData): void {
+        const collectFromClass = (cls: CfgClass): void => {
+            // Match TexGen0, TexGen1, TexGen2, etc.
+            const match = /^texgen(\d+)$/i.exec(cls.name);
+            if (match) {
+                const index = parseInt(match[1], 10);
+                const uvSourceProp = this.findClassProperty(cls, 'uvSource');
+                const uvTransformClass = this.findClassProperty(cls, 'uvTransform');
+
+                if (uvSourceProp && this.isSimpleVariable(uvSourceProp) &&
+                    uvTransformClass && this.isClass(uvTransformClass)) {
+
+                    const uvSource = this.readString(uvSourceProp) ?? 'tex';
+                    const aside = this.readNumberArray(this.findClassProperty(uvTransformClass, 'aside')) ?? [1, 0, 0];
+                    const up = this.readNumberArray(this.findClassProperty(uvTransformClass, 'up')) ?? [0, 1, 0];
+                    const dir = this.readNumberArray(this.findClassProperty(uvTransformClass, 'dir')) ?? [0, 0, 1];
+                    const pos = this.readNumberArray(this.findClassProperty(uvTransformClass, 'pos')) ?? [0, 0, 0];
+
+                    data.texGens.set(index, {
+                        uvSource,
+                        uvTransform: { aside, up, dir, pos }
+                    });
                 }
             }
 
@@ -97,8 +157,8 @@ export class RvmatParser {
         return match;
     }
 
-    private static readNumberArray(node?: CfgSimpleVariable | CfgArrayVariable): number[] | undefined {
-        if (!node) { return undefined; }
+    private static readNumberArray(node?: CfgBaseType): number[] | undefined {
+        if (!node || !this.isVariable(node)) { return undefined; }
         const raw = node.kind === 'array' ? node.values : node.value;
         if (!Array.isArray(raw)) { return undefined; }
 
@@ -109,15 +169,15 @@ export class RvmatParser {
         return numbers.length > 0 ? numbers : undefined;
     }
 
-    private static readNumber(node?: CfgSimpleVariable | CfgArrayVariable): number | undefined {
-        if (!node) { return undefined; }
+    private static readNumber(node?: CfgBaseType): number | undefined {
+        if (!node || !this.isVariable(node)) { return undefined; }
         if (node.kind === 'variable') {
             return this.toNumber(node.value);
         }
         return node.values.length === 1 ? this.toNumber(node.values[0]) : undefined;
     }
 
-    private static readString(node?: CfgSimpleVariable | CfgArrayVariable): string | undefined {
+    private static readString(node?: CfgBaseType): string | undefined {
         if (!node || !this.isSimpleVariable(node)) { return undefined; }
         const value = node.value;
         return typeof value === 'string' ? value : undefined;
@@ -142,19 +202,5 @@ export class RvmatParser {
 
     private static isClass(node: CfgBaseType): node is CfgClass {
         return node.kind === 'class';
-    }
-
-    /**
-     * Get all texture paths from parsed data
-     */
-    static getTexturePaths(data: RvmatData): string[] {
-        return data.stages.map(stage => stage.texture);
-    }
-
-    /**
-     * Get main diffuse/color texture (typically Stage1)
-     */
-    static getMainTexture(data: RvmatData): string | undefined {
-        return data.stages.find(s => s.name === 'Stage1')?.texture;
     }
 }
