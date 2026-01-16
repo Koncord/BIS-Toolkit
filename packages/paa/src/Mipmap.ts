@@ -87,7 +87,7 @@ export class Mipmap {
         switch (this.format) {
             case PaaType.DXT1:
                 uncompressedSize = Math.floor(uncompressedSize / 2);
-                // Fall through
+            // Fall through
             case PaaType.DXT2:
             case PaaType.DXT3:
             case PaaType.DXT4:
@@ -114,7 +114,7 @@ export class Mipmap {
         if (!this.isLzss) {
             return br.readBytes(this.dataSize);
         }
-        
+
         // LZSS decompression
         const result = lzssDecompress(buffer, br.pos, uncompressedSize, false);
         br.seek(result.bytesRead, 'current');
@@ -124,5 +124,17 @@ export class Mipmap {
     getRgba32PixelData(buffer: Buffer | Uint8Array): Uint8Array {
         const data = this.getRawPixelData(buffer);
         return PixelFormatConversion.convertToARGB32(data, this.width, this.height, this.format);
+    }
+
+    isDxtFormat(): boolean {
+        return this.format === PaaType.DXT1 ||
+            this.format === PaaType.DXT2 ||
+            this.format === PaaType.DXT3 ||
+            this.format === PaaType.DXT4 ||
+            this.format === PaaType.DXT5;
+    }
+
+    getFormat(): PaaType {
+        return this.format;
     }
 }
