@@ -132,10 +132,7 @@ export class TaggReader {
         const endPos = reader.pos + dataSize;
 
         const weightedPoints = reader.readBytes(verticesLength);
-        const faces = new Array<boolean>(facesLength);
-        for (let i = 0; i < facesLength; i++) {
-            faces[i] = reader.readBoolean();
-        }
+        const faces = reader.readBytes(facesLength);
 
         this.ensureSectionEnd(reader, endPos, '#Selected#');
         return { kind: 'Selected', name: '#Selected#', weightedPoints, faces };
@@ -178,15 +175,8 @@ export class TaggReader {
         const dataSize = reader.readUInt32();
         const endPos = reader.pos + dataSize;
 
-        const points = new Array<boolean>(verticesLength);
-        for (let i = 0; i < verticesLength; i++) {
-            points[i] = reader.readBoolean();
-        }
-
-        const faces = new Array<boolean>(facesLength);
-        for (let i = 0; i < facesLength; i++) {
-            faces[i] = reader.readBoolean();
-        }
+        const points = reader.readBytes(verticesLength);
+        const faces = reader.readBytes(facesLength);
 
         this.ensureSectionEnd(reader, endPos, taggName);
         return { kind: 'NamedSelection', name: taggName, points, faces };
