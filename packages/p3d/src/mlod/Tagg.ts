@@ -31,7 +31,7 @@ export interface SelectedTagg {
     kind: 'Selected';
     name: '#Selected#';
     weightedPoints: Uint8Array;
-    faces: boolean[];
+    faces: Uint8Array;
 }
 
 export interface SharpEdgesTagg {
@@ -50,8 +50,8 @@ export interface UVSetTagg {
 export interface NamedSelectionTagg {
     kind: 'NamedSelection';
     name: string;
-    points: boolean[];
-    faces: boolean[];
+    points: Uint8Array;
+    faces: Uint8Array;
 }
 
 export interface EndOfFileTagg {
@@ -71,10 +71,10 @@ export type Tagg =
     | EndOfFileTagg;
 
 // Helper functions for working with tagged data
-export function getSelectedIndices(boolArray: boolean[]): number[] {
+export function getSelectedIndices(arr: Uint8Array): number[] {
     const indices: number[] = [];
-    for (let i = 0; i < boolArray.length; i++) {
-        if (boolArray[i]) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > 0) {
             indices.push(i);
         }
     }
