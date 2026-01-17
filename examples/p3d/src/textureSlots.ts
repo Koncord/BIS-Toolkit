@@ -362,7 +362,7 @@ export class TextureSlots {
             color: hasDiffuseTexture ? 0xFFFFFF : 0x888888,
             metalness: 0.0, // Games rarely use metalness, mostly specular workflow
             roughness: 0.7, // Default moderate roughness
-            side: THREE.DoubleSide,
+            side: THREE.FrontSide,
             flatShading: false,
             wireframe: wireframeEnabled,
             // Shader uses Fresnel-modulated specular with cSpecular color

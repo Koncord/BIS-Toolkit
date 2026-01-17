@@ -170,16 +170,16 @@ class P3dApp extends RenderAppBase {
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
         // Convert polygons to triangle indices
-        // Triangles stay as-is, quads are split into two triangles
+        // Reverse winding order for DirectX to OpenGL conversion
         const indices: number[] = [];
         if (lod.polygons && lod.polygons.faces) {
             lod.polygons.faces.forEach((face: OdolFace) => {
                 if (face.vertexIndices.length === 3) {
-                    indices.push(face.vertexIndices[0], face.vertexIndices[1], face.vertexIndices[2]);
+                    indices.push(face.vertexIndices[2], face.vertexIndices[1], face.vertexIndices[0]);
                 } else if (face.vertexIndices.length === 4) {
                     indices.push(
-                        face.vertexIndices[0], face.vertexIndices[1], face.vertexIndices[2],
-                        face.vertexIndices[0], face.vertexIndices[2], face.vertexIndices[3]
+                        face.vertexIndices[2], face.vertexIndices[1], face.vertexIndices[0],
+                        face.vertexIndices[3], face.vertexIndices[2], face.vertexIndices[0]
                     );
                 }
             });
@@ -257,10 +257,10 @@ class P3dApp extends RenderAppBase {
         for (const face of lod.faces) {
             const faceVertices = face.getUsedVertices();
 
-            // Convert face to triangles (tri = 1 triangle, quad = 2 triangles)
+            // Convert face to triangles
             const triangles = face.sidesCnt === 3
-                ? [[0, 2, 1]]  // Single triangle with winding order correction
-                : [[0, 3, 2], [0, 2, 1]];  // Two triangles from quad
+                ? [[0, 1, 2]]  // Single triangle
+                : [[0, 1, 2], [0, 2, 3]];  // Two triangles from quad
 
             // Get or create material for this face
             const materialKey = (face.material || face.texture || 'default').toLowerCase();
@@ -434,10 +434,10 @@ class P3dApp extends RenderAppBase {
             const face = faces[faceIdx];
             if (face) {
                 const faceVertices = face.getUsedVertices();
-                // Convert to triangles with corrected winding order
+                // Convert to triangles (Z-flip handles DirectX to OpenGL conversion)
                 const triangles = face.sidesCnt === 3
-                    ? [[0, 2, 1]]  // Single triangle
-                    : [[0, 2, 1], [0, 3, 2]];  // Two triangles from quad
+                    ? [[0, 1, 2]]  // Single triangle
+                    : [[0, 1, 2], [0, 2, 3]];  // Two triangles from quad
 
                 for (const tri of triangles) {
                     for (const vertIndex of tri) {
