@@ -219,6 +219,8 @@ class P3dApp extends RenderAppBase {
 
         geometry.computeTangents();
 
+        geometry.center();
+
         // Build material with texture slots
         const material = this.fileHandler.textureSlots.buildMaterial({
             wireframeEnabled: this.wireframeEnabled,

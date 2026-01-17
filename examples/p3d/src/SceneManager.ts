@@ -49,7 +49,7 @@ export class SceneManager {
         const width = container?.clientWidth || canvas.clientWidth;
         const height = container?.clientHeight || canvas.clientHeight || 1;
         this.camera = new THREE.PerspectiveCamera(60, width / height, 0.01, 1000);
-        this.camera.position.set(5, 3, 5);
+        this.camera.position.set(-5, 3, 5);
 
         // Create renderer
         this.renderer = new THREE.WebGLRenderer({
@@ -124,11 +124,24 @@ export class SceneManager {
      * Reset camera to default position
      */
     resetCamera(
-        position: THREE.Vector3 = new THREE.Vector3(5, 3, 5),
+        position: THREE.Vector3 = new THREE.Vector3(-5, 3, 5),
         target: THREE.Vector3 = new THREE.Vector3(0, 1, 0)
     ): void {
         this.camera.position.copy(position);
         this.controls.target.copy(target);
+        this.controls.update();
+    }
+
+    /**
+     * Position camera based on object size
+     */
+    private positionCameraForSize(size: THREE.Vector3): void {
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = this.camera.fov * (Math.PI / 180);
+        const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
+
+        this.camera.position.set(-cameraDistance, cameraDistance * 0.5, cameraDistance);
+        this.controls.target.set(0, 0, 0);
         this.controls.update();
     }
 
@@ -138,14 +151,8 @@ export class SceneManager {
     centerCameraOnMesh(mesh: THREE.Mesh): void {
         const box = new THREE.Box3().setFromObject(mesh);
         const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const fov = this.camera.fov * (Math.PI / 180);
-        const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
-
-        this.camera.position.set(cameraDistance, cameraDistance * 0.5, cameraDistance);
+        this.positionCameraForSize(size);
         this.camera.lookAt(0, 0, 0);
-        this.controls.target.set(0, 0, 0);
-        this.controls.update();
     }
 
     /**
@@ -220,12 +227,7 @@ export class SceneManager {
 
             if (!preserveView) {
                 // Position camera
-                const maxDim = Math.max(size.x, size.y, size.z);
-                const fov = this.camera.fov * (Math.PI / 180);
-                const cameraDistance = Math.abs(maxDim / Math.sin(fov / 2)) * 1.5;
-
-                this.camera.position.set(cameraDistance, cameraDistance * 0.5, cameraDistance);
-                this.controls.target.set(0, 0, 0);
+                this.positionCameraForSize(size);
             } else {
                 // Keep prior camera framing
                 this.camera.position.copy(prevCameraPos);
