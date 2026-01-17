@@ -283,7 +283,7 @@ export class RenderAppBase {
                 color: 0xff00ff,
                 transparent: true,
                 opacity: 0.4,
-                side: THREE.DoubleSide,
+                side: THREE.FrontSide,
                 depthTest: true,
                 depthWrite: false,
                 polygonOffset: true,
