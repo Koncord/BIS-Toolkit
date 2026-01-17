@@ -28,11 +28,11 @@ export class Face {
 
     static fromReader(reader: BinaryReader): Face {
         const sidesCnt = reader.readInt32();
-        const vertices: Vertex[] = [];
-        
+        const vertices = new Array<Vertex>(4);
+
         // Always read 4 vertices (padding with unused vertices if sidesCnt < 4)
         for (let i = 0; i < 4; i++) {
-            vertices.push(Vertex.fromReader(reader));
+            vertices[i] = Vertex.fromReader(reader);
         }
 
         const flags = reader.readInt32() as FaceFlags;
