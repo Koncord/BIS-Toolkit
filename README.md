@@ -11,7 +11,7 @@ This is a monorepo containing the following packages:
 - **[@bis-toolkit/paa](./packages/paa)** - PAA texture format reader
 - **[@bis-toolkit/edds](./packages/edds)** - EDDS texture format reader
 - **[@bis-toolkit/cppparser](./packages/cppparser)** - CPP and RVMat config parser
-- **[@bis-toolkit/p3d](./packages/p3d)** - P3D (MLOD/ODOL) model format reader
+- **[@bis-toolkit/p3d](./packages/p3d)** - P3D (MLOD) model format reader
 
 ## Installation
 
